@@ -37,7 +37,6 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			uc.post(w, r)
 		default:
 			w.WriteHeader(http.StatusNotImplemented) // 501
-
 		}
 
 	} else {
@@ -79,6 +78,7 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 	u, err := models.GetUserByID(id)
 
 	if err != nil {
+		w.Write([]byte("Requested User does not exist"))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 
@@ -103,6 +103,7 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 		w.Write(errorMessage)
 		return
 	}
+	encodeResponseAsJSON(u, w)
 }
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {

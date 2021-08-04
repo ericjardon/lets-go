@@ -14,6 +14,7 @@ func RegisterControllers() {
 	uc := newUserController() // is a pointer to userController
 
 	http.Handle("/users", *uc)
+	http.Handle("/users/", *uc)
 }
 
 // Static method of a controller to send responses in JSON
